@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MANGOS LEAGUE 🥭⚽</title>
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Foglio di Stile Personalizzato -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-white min-h-screen pb-28 selection:bg-amber-500 selection:text-black">
+
+  <!-- TOP BAR CON LUCCHETTO ADMIN -->
+  <header class="p-4 border-b border-white/10 sticky top-0 bg-[#08070d]/90 backdrop-blur-md z-40">
+    <div class="max-w-md md:max-w-4xl lg:max-w-5xl mx-auto w-full flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 flex items-center justify-center text-xl shadow-lg shadow-orange-500/25">
+          🥭
+        </div>
+        <div>
+          <h1 class="font-black text-lg md:text-xl tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-400">MANGOS LEAGUE</h1>
+          <p class="text-[10px] md:text-xs text-zinc-400 uppercase tracking-widest font-bold">Derby: Squadra Bianca vs Squadra Nera</p>
+        </div>
+      </div>
+      
+      <button onclick="handleAdminLockClick()" id="btn-admin-lock" class="p-2 md:px-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-zinc-400 transition active:scale-95 flex items-center gap-1.5" title="Accesso Admin">
+        <i id="lock-icon" data-lucide="lock" class="w-4 h-4"></i>
+        <span id="lock-label" class="text-[10px] md:text-xs font-bold hidden sm:inline">Admin</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENUTO PRINCIPALE -->
+  <main class="max-w-md md:max-w-4xl lg:max-w-5xl mx-auto p-4 md:p-6 space-y-5 md:space-y-6">
+
+    <!-- ==================== TAB 1: RECENTI ==================== -->
+    <div id="tab-recenti" class="tab-content hidden space-y-5">
+      <!-- BILANCIO STORICO -->
+      <div class="bg-gradient-to-br from-amber-500/10 via-zinc-900 to-orange-500/10 border border-amber-500/25 rounded-2xl p-4 md:p-6 shadow-lg">
+        <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
+          <h3 class="font-black text-xs md:text-sm uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+            <i data-lucide="scale" class="w-4 h-4"></i> Bilancio Totale Derby
+          </h3>
+          <span class="text-[10px] md:text-xs text-zinc-400 font-mono">STORICO VITTORIE</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2 md:gap-4 text-center">
+          <div class="bg-white/5 border border-white/10 p-2.5 md:p-4 rounded-xl">
+            <span class="text-[10px] md:text-xs font-bold text-white block mb-0.5">⚪ Bianchi</span>
+            <span id="stat-wins-white" class="text-xl md:text-3xl font-black font-mono text-white">0</span>
+            <span class="text-[8px] md:text-[10px] text-zinc-400 uppercase block mt-0.5">Vittorie</span>
+          </div>
+          <div class="bg-white/5 border border-white/10 p-2.5 md:p-4 rounded-xl">
+            <span class="text-[10px] md:text-xs font-bold text-zinc-400 block mb-0.5">🤝 Pareggi</span>
+            <span id="stat-draws" class="text-xl md:text-3xl font-black font-mono text-zinc-300">0</span>
+            <span class="text-[8px] md:text-[10px] text-zinc-400 uppercase block mt-0.5">Pari</span>
+          </div>
+          <div class="bg-white/5 border border-white/10 p-2.5 md:p-4 rounded-xl">
+            <span class="text-[10px] md:text-xs font-bold text-amber-400 block mb-0.5">⚫ Neri</span>
+            <span id="stat-wins-black" class="text-xl md:text-3xl font-black font-mono text-amber-400">0</span>
+            <span class="text-[8px] md:text-[10px] text-zinc-400 uppercase block mt-0.5">Vittorie</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTA MATCHDAY -->
+      <div class="space-y-3">
+        <h4 class="text-xs md:text-sm font-black uppercase tracking-wider text-zinc-400 flex items-center gap-1.5 px-1">
+          <i data-lucide="history" class="w-4 h-4 text-amber-400"></i> Partite Archiviate
+        </h4>
+        <div id="archive-list" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 2: PARTITA ==================== -->
+    <div id="tab-match" class="tab-content space-y-5">
+      <div id="active-matchday-banner" class="hidden bg-amber-500/15 border border-amber-500/40 rounded-2xl p-3 flex items-center justify-between">
+        <div class="flex items-center gap-2 text-xs md:text-sm text-amber-300">
+          <i data-lucide="edit-3" class="w-4 h-4 text-amber-400 shrink-0"></i>
+          <span>Stai modificando un Matchday esistente.</span>
+        </div>
+        <button onclick="cancelActiveMatchdayEdit()" class="text-[10px] md:text-xs font-bold text-zinc-400 hover:text-white underline">Annulla</button>
+      </div>
+
+      <!-- INTESTAZIONE MATCHDAY -->
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-4 md:p-5 neon-border space-y-3">
+        <div class="flex justify-between items-center border-b border-white/10 pb-2">
+          <span class="bg-amber-500/20 text-amber-300 text-[10px] md:text-xs font-black px-2.5 py-0.5 rounded-full border border-amber-500/30 tracking-wider">PROSSIMO DERBY</span>
+          <span id="match-status-pill" class="text-[11px] md:text-xs text-emerald-400 font-bold flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Programmata
+          </span>
+        </div>
+
+        <div id="public-match-info" class="space-y-1 py-1">
+          <div class="flex items-center gap-2 text-white font-black text-sm md:text-base">
+            <i data-lucide="calendar" class="w-4 h-4 text-amber-400 shrink-0"></i>
+            <span id="public-match-datetime">In attesa di programmazione...</span>
+          </div>
+          <div class="flex items-center gap-2 text-zinc-400 text-xs md:text-sm font-medium">
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+            <span id="public-match-place">Calcetto Mangos Arena</span>
+          </div>
+        </div>
+
+        <!-- INPUT NATIVI ADMIN -->
+        <div id="admin-match-inputs" class="hidden space-y-3 pt-2 border-t border-white/10">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <label class="text-[9px] md:text-[10px] font-bold text-zinc-400 uppercase block mb-1">Data Partita:</label>
+              <input type="date" id="match-date-input" onchange="syncPublicMatchInfo()" class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs md:text-sm text-white focus:outline-none focus:border-amber-400 font-mono">
+            </div>
+            <div>
+              <label class="text-[9px] md:text-[10px] font-bold text-zinc-400 uppercase block mb-1">Orario:</label>
+              <input type="time" id="match-time-input" value="21:00" onchange="syncPublicMatchInfo()" class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs md:text-sm text-white focus:outline-none focus:border-amber-400 font-mono">
+            </div>
+          </div>
+          <div>
+            <label class="text-[9px] md:text-[10px] font-bold text-zinc-400 uppercase block mb-1">Campo di Gioco:</label>
+            <input type="text" id="match-place-input" value="Calcetto Mangos Arena" oninput="syncPublicMatchInfo()" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs md:text-sm text-white focus:outline-none focus:border-amber-400 font-bold">
+          </div>
+        </div>
+      </div>
+
+      <div id="admin-generate-container" class="hidden">
+        <button onclick="generateTeams()" class="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-black font-black py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition shadow-lg shadow-orange-500/20 text-xs md:text-sm uppercase tracking-wide">
+          <i data-lucide="shuffle" class="w-4 h-4"></i> Bilancia & Genera Squadre
+        </button>
+      </div>
+
+      <div id="public-no-teams" class="bg-white/5 border border-white/10 rounded-2xl p-6 text-center text-zinc-400 text-xs md:text-sm space-y-2">
+        <div class="text-3xl">⏳</div>
+        <p class="font-bold text-white text-sm md:text-base">Formazioni in preparazione</p>
+        <p class="text-xs text-zinc-500">L'Admin pubblicherà a breve le squadre ufficiali, i moduli e i turni per questo Matchday.</p>
+      </div>
+
+      <!-- SQUADRE & MODULI -->
+      <div id="teams-container" class="space-y-4 hidden pt-1">
+        <div id="swap-banner" class="hidden bg-amber-500/10 border border-amber-500/30 rounded-xl p-2.5 text-center text-xs text-amber-300 flex items-center justify-center gap-1.5 transition">
+          <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+          <span id="swap-banner-text">Tocca un giocatore bianco e uno nero per scambiarli!</span>
+        </div>
+
+        <div id="admin-match-actions" class="hidden grid grid-cols-2 gap-2">
+          <button onclick="shareWhatsApp()" class="bg-emerald-500 hover:bg-emerald-400 text-black font-black py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition text-xs md:text-sm shadow">
+            <i data-lucide="share-2" class="w-4 h-4"></i> Invia su WA
+          </button>
+          <button onclick="saveMatchdayToArchive()" id="btn-save-matchday" class="bg-white/10 hover:bg-white/15 border border-white/15 text-white font-black py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition text-xs md:text-sm shadow">
+            <i data-lucide="save" class="w-4 h-4 text-amber-400"></i> Salva Matchday
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-zinc-100 text-zinc-950 rounded-xl p-3.5 shadow-lg">
+            <div class="flex items-center justify-between pb-2 border-b border-zinc-300 mb-2">
+              <span class="font-black text-xs md:text-sm">⚪ BIANCHI (<span id="count-bianca">0</span>)</span>
+              <span id="ovr-bianca" class="text-[10px] md:text-xs font-mono bg-zinc-900 text-white font-bold px-1.5 py-0.5 rounded">OVR: --</span>
+            </div>
+            <ul id="list-bianca" class="space-y-1.5 text-xs font-medium"></ul>
+          </div>
+          <div class="bg-zinc-900 border border-white/20 text-white rounded-xl p-3.5 shadow-lg">
+            <div class="flex items-center justify-between pb-2 border-b border-white/10 mb-2">
+              <span class="font-black text-xs md:text-sm text-amber-400">⚫ NERI (<span id="count-nera">0</span>)</span>
+              <span id="ovr-nera" class="text-[10px] md:text-xs font-mono bg-amber-400 text-black font-bold px-1.5 py-0.5 rounded">OVR: --</span>
+            </div>
+            <ul id="list-nera" class="space-y-1.5 text-xs font-medium"></ul>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-2">
+            <div class="flex justify-between items-center pb-1 border-b border-white/10">
+              <span class="text-xs md:text-sm font-black text-white flex items-center gap-1">⚪ SQUADRA BIANCA</span>
+              <button onclick="rotateKeeper('white')" class="bg-zinc-800 hover:bg-zinc-700 text-amber-400 border border-amber-400/30 text-[10px] font-black px-2 py-1 rounded-lg active:scale-95 transition flex items-center gap-1">
+                ⚽ Gol Subito! (Ruota)
+              </button>
+            </div>
+            <div class="grid grid-cols-12 gap-2 items-start">
+              <div class="col-span-4 space-y-1">
+                <span class="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">🧤 Turni:</span>
+                <div id="gk-turns-white" class="space-y-1"></div>
+              </div>
+              <div class="col-span-8 pitch-bg rounded-xl p-2.5 space-y-1.5 shadow-inner">
+                <div class="flex justify-between items-center">
+                  <span id="modulo-tag-white" class="text-[9px] bg-white text-black font-black px-1.5 py-0.5 rounded shadow">MODULO --</span>
+                </div>
+                <div id="tactics-desc-white" class="text-[10px] text-amber-300 font-bold italic truncate"></div>
+                <div id="tactics-white" class="space-y-1.5 text-xs"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-2">
+            <div class="flex justify-between items-center pb-1 border-b border-white/10">
+              <button onclick="rotateKeeper('black')" class="bg-amber-500 hover:bg-amber-400 text-black text-[10px] font-black px-2 py-1 rounded-lg active:scale-95 transition flex items-center gap-1">
+                ⚽ Gol Subito! (Ruota)
+              </button>
+              <span class="text-xs md:text-sm font-black text-amber-400 flex items-center gap-1">⚫ SQUADRA NERA</span>
+            </div>
+            <div class="grid grid-cols-12 gap-2 items-start">
+              <div class="col-span-8 pitch-bg rounded-xl p-2.5 space-y-1.5 shadow-inner">
+                <div class="flex justify-between items-center">
+                  <span id="modulo-tag-black" class="text-[9px] bg-black text-amber-400 border border-amber-400/40 font-black px-1.5 py-0.5 rounded shadow">MODULO --</span>
+                </div>
+                <div id="tactics-desc-black" class="text-[10px] text-amber-300 font-bold italic truncate"></div>
+                <div id="tactics-black" class="space-y-1.5 text-xs"></div>
+              </div>
+              <div class="col-span-4 space-y-1 text-right">
+                <span class="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Turni 🧤</span>
+                <div id="gk-turns-black" class="space-y-1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTA CONVOCATI ADMIN -->
+      <div id="admin-convocati-section" class="hidden space-y-3 pt-3 border-t border-white/10">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs md:text-sm font-black uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+            <i data-lucide="users" class="w-4 h-4 text-amber-400"></i> Appello Convocati (<span id="count-in">0</span>/<span id="count-total">27</span>)
+          </h2>
+          <div class="flex gap-2">
+            <button onclick="selectAll(true)" class="text-[10px] md:text-xs text-amber-400 hover:underline">Tutti IN</button>
+            <span class="text-zinc-600">|</span>
+            <button onclick="selectAll(false)" class="text-[10px] md:text-xs text-zinc-400 hover:underline">Tutti OUT</button>
+          </div>
+        </div>
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400"></i>
+          <input type="text" id="search-input" placeholder="Cerca giocatore..." oninput="handleSearchFilter()" class="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs md:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition">
+        </div>
+        <div class="flex gap-1.5">
+          <button onclick="setStatusFilter('ALL')" id="filter-btn-ALL" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-amber-500 text-black border border-amber-400 shadow">Tutti (<span id="filter-count-all">0</span>)</button>
+          <button onclick="setStatusFilter('IN')" id="filter-btn-IN" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-white/5 text-emerald-400 border border-white/10">Solo IN (<span id="filter-count-in">0</span>)</button>
+          <button onclick="setStatusFilter('OUT')" id="filter-btn-OUT" class="flex-1 py-1.5 rounded-lg text-xs font-bold bg-white/5 text-red-400 border border-white/10">Solo OUT (<span id="filter-count-out">0</span>)</button>
+        </div>
+        <div id="players-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 3: STATISTICHE ==================== -->
+    <div id="tab-leaderboard" class="tab-content hidden space-y-4">
+      <div id="leaderboard-header-banner" class="bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/20 rounded-2xl p-4 md:p-5 transition">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-black text-sm md:text-base uppercase text-amber-400 flex items-center gap-1.5">
+              <i data-lucide="trophy" class="w-4 h-4"></i> Classifica Ufficiale Mangos
+            </h3>
+            <p id="stats-subtitle" class="text-xs text-zinc-400 mt-0.5">Tocca qualsiasi riga per aprire la Figurina FUT del giocatore.</p>
+          </div>
+          <span id="badge-admin-stats" class="hidden text-[10px] md:text-xs font-black bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full">
+            MODALITÀ ADMIN
+          </span>
+        </div>
+      </div>
+
+      <div id="admin-stats-actions" class="hidden space-y-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button onclick="openAddPlayerModal()" class="bg-white/10 hover:bg-white/15 border border-white/20 text-amber-300 font-black text-xs md:text-sm py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition shadow">
+            <i data-lucide="user-plus" class="w-4 h-4"></i> + Crea Giocatore
+          </button>
+          <button onclick="saveAllStats()" id="btn-save-stats" class="bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs md:text-sm py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg shadow-emerald-500/20">
+            <i data-lucide="save" class="w-4 h-4"></i> Salva Statistiche
+          </button>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <button onclick="exportBackupJson()" class="bg-white/5 hover:bg-white/10 border border-white/15 text-zinc-300 font-black text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition shadow">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-amber-400"></i> 💾 Esporta Backup (JSON)
+          </button>
+          <button onclick="document.getElementById('import-json-input').click()" class="bg-white/5 hover:bg-white/10 border border-white/15 text-zinc-300 font-black text-xs py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition shadow">
+            <i data-lucide="upload" class="w-3.5 h-3.5 text-blue-400"></i> 📥 Importa JSON
+          </button>
+          <input type="file" id="import-json-input" accept=".json" class="hidden" onchange="handleImportBackup(event)">
+        </div>
+      </div>
+
+      <div class="space-y-2 pt-1">
+        <div class="relative">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-zinc-400"></i>
+          <input type="text" id="stats-search-input" placeholder="Cerca giocatore in classifica..." oninput="renderLeaderboard()" class="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-3 py-2 text-xs md:text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-amber-400 transition">
+        </div>
+        <div class="flex gap-1 overflow-x-auto pb-1 text-[11px] md:text-xs font-bold">
+          <button onclick="setStatsRoleFilter('ALL')" id="role-filter-ALL" class="px-2.5 py-1 rounded-lg bg-amber-500 text-black border border-amber-400 shadow transition font-bold shrink-0">Tutti</button>
+          <button onclick="setStatsRoleFilter('POR')" id="role-filter-POR" class="px-2.5 py-1 rounded-lg bg-white/5 text-zinc-400 border border-white/10 hover:bg-white/10 transition shrink-0">Portieri</button>
+          <button onclick="setStatsRoleFilter('DIF')" id="role-filter-DIF" class="px-2.5 py-1 rounded-lg bg-white/5 text-zinc-400 border border-white/10 hover:bg-white/10 transition shrink-0">Difensori</button>
+          <button onclick="setStatsRoleFilter('CEN')" id="role-filter-CEN" class="px-2.5 py-1 rounded-lg bg-white/5 text-zinc-400 border border-white/10 hover:bg-white/10 transition shrink-0">Centrocampisti</button>
+          <button onclick="setStatsRoleFilter('ATT')" id="role-filter-ATT" class="px-2.5 py-1 rounded-lg bg-white/5 text-zinc-400 border border-white/10 hover:bg-white/10 transition shrink-0">Attaccanti</button>
+        </div>
+      </div>
+
+      <div class="bg-white/5 border border-white/10 rounded-xl overflow-x-auto shadow-lg">
+        <table class="w-full text-left text-xs md:text-sm whitespace-nowrap">
+          <thead class="bg-white/5 text-zinc-400 border-b border-white/10 select-none">
+            <tr>
+              <th class="p-2.5 md:p-3">#</th>
+              <th onclick="sortTable('name')" class="py-2.5 md:py-3 cursor-pointer hover:text-white transition">
+                <span class="inline-flex items-center gap-1">Giocatore <span id="sort-icon-name" class="text-[10px]"></span></span>
+              </th>
+              <th onclick="sortTable('role')" class="py-2.5 md:py-3 text-center cursor-pointer hover:text-white transition">
+                <span class="inline-flex items-center gap-0.5 justify-center">Ruolo <span id="sort-icon-role" class="text-[10px]"></span></span>
+              </th>
+              <th onclick="sortTable('ovr')" class="py-2.5 md:py-3 text-center cursor-pointer hover:text-white transition">
+                <span class="inline-flex items-center gap-0.5 justify-center">OVR <span id="sort-icon-ovr" class="text-[10px]"></span></span>
+              </th>
+              <th onclick="sortTable('matches')" class="py-2.5 md:py-3 text-center cursor-pointer hover:text-white transition">
+                <span class="inline-flex items-center gap-0.5 justify-center">PG <span id="sort-icon-matches" class="text-[10px]"></span></span>
+              </th>
+              <th onclick="sortTable('wins')" class="py-2.5 md:py-3 text-center cursor-pointer hover:text-white transition">
+                <span class="inline-flex items-center gap-0.5 justify-center">V <span id="sort-icon-wins" class="text-[10px]"></span></span>
+              </th>
+              <th onclick="sortTable('losses')" class="py-2.5 md:py-3 text-center cursor-pointer hover:text-white transition">
+                <span class="inline-flex items-center gap-0.5 justify-center">S <span id="sort-icon-losses" class="text-[10px]"></span></span>
+              </th>
+              <th onclick="sortTable('goals')" class="py-2.5 md:py-3 text-center cursor-pointer hover:text-white transition">
+                <span class="inline-flex items-center gap-0.5 justify-center">Gol <span id="sort-icon-goals" class="text-[10px]"></span></span>
+              </th>
+              <th onclick="sortTable('assists')" class="py-2.5 md:py-3 text-center cursor-pointer hover:text-white transition">
+                <span class="inline-flex items-center gap-0.5 justify-center">Assist <span id="sort-icon-assists" class="text-[10px]"></span></span>
+              </th>
+              <th id="th-admin-actions" class="hidden py-2.5 md:py-3 text-center">Gestione</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body" class="divide-y divide-white/5"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ==================== TAB 4: PAGELLE ==================== -->
+    <div id="tab-pagelle" class="tab-content hidden space-y-4">
+      <div class="bg-gradient-to-br from-amber-500/10 via-zinc-900 to-orange-500/10 border border-amber-500/30 rounded-3xl p-8 text-center space-y-4 shadow-2xl">
+        <div class="w-16 h-16 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center mx-auto text-3xl shadow-inner border border-amber-500/30">
+          📝
+        </div>
+        <div class="space-y-1">
+          <h3 class="font-black text-lg md:text-xl text-white uppercase tracking-wider">Pagelle & Voti Ufficiali</h3>
+          <p class="text-xs md:text-sm text-zinc-400 max-w-md mx-auto">
+            ⏳ <span class="text-amber-300 font-bold">Prossimamente...</span> - La sezione Pagelle & Voti ufficiali sarà disponibile nei prossimi aggiornamenti!
+          </p>
+        </div>
+        <div class="pt-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] text-zinc-400 font-mono">
+            MANGOS EDITORIAL TEAM
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- BOTTOM NAVBAR (4 TAB) -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#08070d]/95 backdrop-blur-lg border-t border-white/10 p-2 z-40">
+    <div class="max-w-md md:max-w-xl mx-auto flex justify-around items-center">
+      <button onclick="switchTab('recenti')" id="btn-tab-recenti" class="nav-btn flex flex-col items-center gap-1 text-zinc-400 hover:text-white transition">
+        <i data-lucide="history" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold">Recenti</span>
+      </button>
+      <button onclick="switchTab('match')" id="btn-tab-match" class="nav-btn flex flex-col items-center gap-1 text-amber-400 transition">
+        <i data-lucide="swords" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold">Partita</span>
+      </button>
+      <button onclick="switchTab('leaderboard')" id="btn-tab-leaderboard" class="nav-btn flex flex-col items-center gap-1 text-zinc-400 hover:text-white transition">
+        <i data-lucide="trophy" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold">Statistiche</span>
+      </button>
+      <button onclick="switchTab('pagelle')" id="btn-tab-pagelle" class="nav-btn flex flex-col items-center gap-1 text-zinc-400 hover:text-white transition">
+        <i data-lucide="file-text" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold">Pagelle</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MODALI -->
+
+  <!-- AUTH ADMIN -->
+  <div id="modal-admin-auth" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-amber-500/40 rounded-2xl p-5 max-w-xs w-full shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <h3 class="font-black text-sm text-white flex items-center gap-1.5">
+          <i data-lucide="lock" class="w-4 h-4 text-amber-400"></i> Accesso Riservato Admin
+        </h3>
+        <button onclick="closeModals()" class="text-zinc-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="space-y-3">
+        <p class="text-xs text-zinc-400">Inserisci la chiave di sicurezza per attivare i permessi di gestione:</p>
+        <input type="password" id="admin-password-field" placeholder="Inserisci Password Admin..." class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white text-center focus:outline-none focus:border-amber-400 font-mono">
+        <div id="admin-auth-error" class="text-red-400 text-[11px] font-bold text-center hidden">Password errata!</div>
+      </div>
+      <div class="flex gap-2 pt-1">
+        <button onclick="closeModals()" class="w-1/2 py-2 bg-white/10 hover:bg-white/15 rounded-xl font-bold text-xs text-zinc-300">Annulla</button>
+        <button onclick="submitAdminAuth()" class="w-1/2 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs active:scale-95 transition">Sblocca</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETTAGLIO MATCHDAY -->
+  <div id="modal-matchday-detail" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-white/15 rounded-3xl p-5 max-w-sm md:max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl space-y-4">
+      <div class="flex justify-between items-start border-b border-white/10 pb-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="modal-match-status-badge" class="text-[9px] font-mono uppercase bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-black">MATCHDAY</span>
+            <span id="modal-match-score-badge" class="font-mono font-black text-xs md:text-sm text-emerald-400"></span>
+          </div>
+          <h3 id="modal-match-date" class="font-black text-sm md:text-base text-white mt-1">--</h3>
+          <p id="modal-match-place" class="text-[10px] md:text-xs text-zinc-400">--</p>
+        </div>
+        <button onclick="closeModals()" class="text-zinc-400 hover:text-white p-1"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+
+      <div id="admin-load-pitch-action" class="hidden">
+        <button onclick="loadSavedMatchdayIntoActivePitch()" class="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-black font-black text-xs md:text-sm py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg">
+          <i data-lucide="repeat" class="w-4 h-4"></i> 🔄 Carica nel Campo Tattico
+        </button>
+      </div>
+
+      <div id="modal-match-pending-banner" class="hidden bg-amber-500/10 border border-amber-500/30 rounded-2xl p-6 text-center space-y-3">
+        <div class="text-3xl">⏳</div>
+        <p class="font-bold text-amber-300 text-sm md:text-base">Formazioni in preparazione</p>
+        <p class="text-xs text-zinc-400 max-w-md mx-auto">L'Admin pubblicherà a breve le squadre ufficiali, i moduli e i turni per questo Matchday.</p>
+        <button onclick="closeModals()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold text-white transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i> Torna alle info generali
+        </button>
+      </div>
+
+      <div id="modal-match-tabs-container" class="flex border-b border-white/10 text-xs font-bold gap-2">
+        <button onclick="switchMatchdayDetailTab('tactics')" id="btn-md-tab-tactics" class="py-2 px-3 border-b-2 border-amber-400 text-amber-400 transition">Formazioni & Moduli</button>
+        <button onclick="switchMatchdayDetailTab('turns')" id="btn-md-tab-turns" class="py-2 px-3 border-b-2 border-transparent text-zinc-400 hover:text-white transition">Turni in Porta</button>
+        <button onclick="switchMatchdayDetailTab('score')" id="btn-md-tab-score" class="py-2 px-3 border-b-2 border-transparent text-zinc-400 hover:text-white transition">Dettagli Partita (Tabellino)</button>
+      </div>
+
+      <div id="modal-match-content-area" class="space-y-4">
+        <div id="md-sec-tactics" class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="pitch-bg rounded-2xl p-3 space-y-2 border border-white/20">
+            <div class="flex justify-between items-center pb-1 border-b border-white/20">
+              <span class="font-black text-white">⚪ SQUADRA BIANCA</span>
+              <span id="modal-match-modulo-w" class="text-[9px] bg-white text-black font-black px-1.5 py-0.5 rounded">MODULO --</span>
+            </div>
+            <div id="modal-pitch-lines-w" class="space-y-1.5"></div>
+          </div>
+          <div class="pitch-bg rounded-2xl p-3 space-y-2 border border-white/20">
+            <div class="flex justify-between items-center pb-1 border-b border-white/20">
+              <span class="font-black text-amber-400">⚫ SQUADRA NERA</span>
+              <span id="modal-match-modulo-b" class="text-[9px] bg-black text-amber-400 border border-amber-400/40 font-black px-1.5 py-0.5 rounded">MODULO --</span>
+            </div>
+            <div id="modal-pitch-lines-b" class="space-y-1.5"></div>
+          </div>
+        </div>
+
+        <div id="md-sec-turns" class="hidden grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between pb-1 border-b border-white/10">
+              <span class="font-black text-white">⚪ BIANCHI - In Porta: <b id="modal-match-active-gk-w" class="text-amber-300 font-mono">--</b></span>
+              <button onclick="rotateSavedMatchdayKeeper('white')" class="bg-zinc-800 hover:bg-zinc-700 text-amber-300 border border-amber-400/30 text-[9px] font-black px-2 py-1 rounded active:scale-95 transition">
+                ⚽ Gol Subito! (Ruota)
+              </button>
+            </div>
+            <div class="text-[10px] text-zinc-300 space-y-1">
+              <span class="text-amber-300 font-bold block">Sequenza Rotazione Portieri:</span>
+              <div id="modal-match-turns-buttons-w" class="flex flex-wrap gap-1"></div>
+            </div>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between pb-1 border-b border-white/10">
+              <span class="font-black text-amber-400">⚫ NERI - In Porta: <b id="modal-match-active-gk-b" class="text-amber-300 font-mono">--</b></span>
+              <button onclick="rotateSavedMatchdayKeeper('black')" class="bg-amber-500 hover:bg-amber-400 text-black text-[9px] font-black px-2 py-1 rounded active:scale-95 transition">
+                ⚽ Gol Subito! (Ruota)
+              </button>
+            </div>
+            <div class="text-[10px] text-zinc-300 space-y-1">
+              <span class="text-amber-300 font-bold block">Sequenza Rotazione Portieri:</span>
+              <div id="modal-match-turns-buttons-b" class="flex flex-wrap gap-1"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="md-sec-score" class="hidden space-y-3 text-xs">
+          <div class="bg-black/40 border border-white/10 rounded-2xl p-3 text-center">
+            <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">Risultato Finale Ufficiale</span>
+            <div id="modal-tabellino-score-header" class="text-lg md:text-xl font-black font-mono text-white">--</div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 space-y-2">
+              <span class="font-black text-white text-xs block pb-1 border-b border-white/10">⚪ Marcature Squadra Bianca:</span>
+              <div id="modal-tabellino-goals-w" class="space-y-1 text-[11px] text-zinc-200">
+                <span class="text-zinc-500 italic">Nessun gol registrato.</span>
+              </div>
+            </div>
+            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 space-y-2">
+              <span class="font-black text-amber-400 text-xs block pb-1 border-b border-white/10">⚽ Marcature Squadra Nera:</span>
+              <div id="modal-tabellino-goals-b" class="space-y-1 text-[11px] text-zinc-200">
+                <span class="text-zinc-500 italic">Nessun gol registrato.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-white/10 flex justify-between items-center text-xs">
+        <button onclick="closeModals()" class="py-2 px-4 bg-white/10 hover:bg-white/15 rounded-xl font-bold text-zinc-300 transition">Chiudi</button>
+        <div id="modal-match-admin-actions" class="hidden flex items-center gap-2">
+          <button onclick="openEditMatchdayModal()" class="py-2 px-3 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl transition flex items-center gap-1 shadow">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Modifica Tabellino
+          </button>
+          <button onclick="adminDeleteCurrentMatchday()" class="py-2 px-3 bg-red-500/20 hover:bg-red-500/30 text-red-300 font-bold rounded-xl border border-red-500/40 transition flex items-center gap-1">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Elimina
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALE TABELLINO ADMIN -->
+  <div id="modal-edit-matchday" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-3">
+    <div class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-5 max-w-sm md:max-w-xl w-full max-h-[92vh] overflow-y-auto shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <h3 class="font-black text-sm md:text-base text-amber-400 flex items-center gap-1.5">
+          <i data-lucide="clipboard-edit" class="w-4 h-4"></i> Gestione Tabellino & Marcatori
+        </h3>
+        <button onclick="closeEditMatchdayModal()" class="text-zinc-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Stato Partita:</label>
+            <select id="edit-match-status-select" class="w-full bg-black/50 border border-white/20 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 font-bold">
+              <option value="concluso">🏆 Concluso (Aggiorna Classifica)</option>
+              <option value="programmata">⏳ Programmata (In Attesa)</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Data Partita:</label>
+            <input type="date" id="edit-match-date-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 font-mono">
+          </div>
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Orario:</label>
+          <input type="time" id="edit-match-time-input" class="w-full bg-black/50 border border-white/20 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 font-mono">
+        </div>
+      </div>
+
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-3 space-y-2.5">
+        <div class="flex justify-between items-center pb-1 border-b border-white/10">
+          <span class="font-black text-white text-xs">⚪ Gol Squadra Bianca (<span id="edit-count-goals-w">0</span>)</span>
+        </div>
+        <div id="edit-goals-list-w" class="space-y-1.5 max-h-36 overflow-y-auto"></div>
+        <div class="pt-2 border-t border-white/10 space-y-1.5 text-[11px]">
+          <span class="text-zinc-400 font-bold block text-[10px]">Aggiungi Marcatura Bianca:</span>
+          <div class="grid grid-cols-2 gap-1.5">
+            <select id="add-goal-scorer-w" class="bg-zinc-800 border border-white/10 rounded-lg p-1.5 text-white"></select>
+            <select id="add-goal-assist-w" class="bg-zinc-800 border border-white/10 rounded-lg p-1.5 text-white"></select>
+          </div>
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center gap-1.5 text-zinc-300 text-[10px] cursor-pointer">
+              <input type="checkbox" id="add-goal-owngoal-w" class="rounded accent-amber-400">
+              <span>Autogol Avversario (AG)</span>
+            </label>
+            <button onclick="addGoalToMatch('white')" class="bg-white text-black font-black px-2.5 py-1 rounded-lg text-xs active:scale-95 transition">
+              + Registra Gol
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-3 space-y-2.5">
+        <div class="flex justify-between items-center pb-1 border-b border-white/10">
+          <span class="font-black text-amber-400 text-xs">⚫ Gol Squadra Nera (<span id="edit-count-goals-b">0</span>)</span>
+        </div>
+        <div id="edit-goals-list-b" class="space-y-1.5 max-h-36 overflow-y-auto"></div>
+        <div class="pt-2 border-t border-white/10 space-y-1.5 text-[11px]">
+          <span class="text-zinc-400 font-bold block text-[10px]">Aggiungi Marcatura Nera:</span>
+          <div class="grid grid-cols-2 gap-1.5">
+            <select id="add-goal-scorer-b" class="bg-zinc-800 border border-white/10 rounded-lg p-1.5 text-white"></select>
+            <select id="add-goal-assist-b" class="bg-zinc-800 border border-white/10 rounded-lg p-1.5 text-white"></select>
+          </div>
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center gap-1.5 text-zinc-300 text-[10px] cursor-pointer">
+              <input type="checkbox" id="add-goal-owngoal-b" class="rounded accent-amber-400">
+              <span>Autogol Avversario (AG)</span>
+            </label>
+            <button onclick="addGoalToMatch('black')" class="bg-amber-400 text-black font-black px-2.5 py-1 rounded-lg text-xs active:scale-95 transition">
+              + Registra Gol
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-1">
+        <button onclick="closeEditMatchdayModal()" class="w-1/2 py-2.5 bg-white/10 hover:bg-white/15 rounded-xl font-bold text-xs text-zinc-300">Annulla</button>
+        <button onclick="saveEditMatchday()" class="w-1/2 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-black rounded-xl text-xs active:scale-95 transition shadow-lg">Salva e Calcola Statistiche</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREA NUOVO GIOCATORE -->
+  <div id="modal-add-player" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[60] hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-5 max-w-xs w-full shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <h3 class="font-black text-sm text-white flex items-center gap-1.5">
+          <i data-lucide="user-plus" class="w-4 h-4 text-amber-400"></i> Nuovo Giocatore
+        </h3>
+        <button onclick="closeAddPlayerModal()" class="text-zinc-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Nome & Cognome:</label>
+          <input type="text" id="new-player-name" placeholder="es. Mario Rossi" class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Ruolo Tattico:</label>
+          <select id="new-player-role" class="w-full bg-zinc-800 border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400 font-mono">
+            <option value="POR">POR - Portiere 🧤</option>
+            <option value="DC">DC - Difensore Centrale</option>
+            <option value="TS">TS - Terzino Sinistro</option>
+            <option value="TD">TD - Terzino Destro</option>
+            <option value="CDC">CDC - Mediano Difensivo</option>
+            <option value="CC">CC - Centrocampista Centrale</option>
+            <option value="COC">COC - Trequartista</option>
+            <option value="ES">ES - Esterno Sinistro</option>
+            <option value="ED">ED - Esterno Destro</option>
+            <option value="AS">AS - Ala Sinistra</option>
+            <option value="AD">AD - Ala Destra</option>
+            <option value="ATT" selected>ATT - Attaccante Centrale</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Overall Iniziale (1 - 99):</label>
+          <input type="number" id="new-player-ovr" value="80" min="1" max="99" class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-amber-400 font-mono font-bold focus:outline-none focus:border-amber-400">
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Frase Descrittiva / Sottotitolo:</label>
+          <input type="text" id="new-player-desc" placeholder="es. Piede caldo, sempre al top" class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeAddPlayerModal()" class="w-1/2 py-2 bg-white/10 hover:bg-white/15 rounded-xl font-bold text-xs text-zinc-300">Annulla</button>
+        <button onclick="submitNewPlayer()" class="w-1/2 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs active:scale-95 transition">Crea</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODIFICA GIOCATORE ESISTENTE -->
+  <div id="modal-edit-player" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[60] hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-amber-500/40 rounded-3xl p-5 max-w-sm w-full max-h-[92vh] overflow-y-auto shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <h3 class="font-black text-sm text-white flex items-center gap-1.5">
+          <i data-lucide="user-cog" class="w-4 h-4 text-amber-400"></i> Modifica Giocatore
+        </h3>
+        <button onclick="closeEditPlayerModal()" class="text-zinc-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Nome & Cognome:</label>
+          <input type="text" id="edit-player-name" class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400 font-bold">
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Ruolo:</label>
+            <select id="edit-player-role" class="w-full bg-zinc-800 border border-white/20 rounded-xl px-2.5 py-2 text-xs text-white focus:outline-none focus:border-amber-400 font-mono">
+              <option value="POR">POR - Portiere 🧤</option>
+              <option value="DC">DC - Difensore Centrale</option>
+              <option value="TS">TS - Terzino Sinistro</option>
+              <option value="TD">TD - Terzino Destro</option>
+              <option value="CDC">CDC - Mediano Difensivo</option>
+              <option value="CC">CC - Centrocampista Centrale</option>
+              <option value="COC">COC - Trequartista</option>
+              <option value="ES">ES - Esterno Sinistro</option>
+              <option value="ED">ED - Esterno Destro</option>
+              <option value="AS">AS - Ala Sinistra</option>
+              <option value="AD">AD - Ala Destra</option>
+              <option value="ATT">ATT - Attaccante Centrale</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Overall (OVR):</label>
+            <input type="number" id="edit-player-ovr" min="1" max="99" class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-amber-400 font-mono font-bold focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+        <div>
+          <label class="text-[10px] font-bold text-zinc-400 uppercase block mb-1">Frase Descrittiva:</label>
+          <input type="text" id="edit-player-desc" class="w-full bg-black/50 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+        <div class="p-2.5 bg-black/30 rounded-xl border border-white/10 space-y-2">
+          <span class="text-[10px] font-bold text-amber-300 uppercase block">Statistiche Ufficiali:</span>
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <span class="text-[9px] text-zinc-400 block mb-0.5">Partite (PG):</span>
+              <input type="number" id="edit-player-matches" min="0" class="w-full bg-zinc-800 border border-white/10 rounded px-2 py-1 text-center font-mono font-bold text-white">
+            </div>
+            <div>
+              <span class="text-[9px] text-zinc-400 block mb-0.5">Vittorie (V):</span>
+              <input type="number" id="edit-player-wins" min="0" class="w-full bg-zinc-800 border border-white/10 rounded px-2 py-1 text-center font-mono font-bold text-emerald-400">
+            </div>
+            <div>
+              <span class="text-[9px] text-zinc-400 block mb-0.5">Sconfitte (S):</span>
+              <input type="number" id="edit-player-losses" min="0" class="w-full bg-zinc-800 border border-white/10 rounded px-2 py-1 text-center font-mono font-bold text-red-400">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <div>
+              <span class="text-[9px] text-zinc-400 block mb-0.5">Gol:</span>
+              <input type="number" id="edit-player-goals" min="0" class="w-full bg-zinc-800 border border-white/10 rounded px-2 py-1 text-center font-mono font-bold text-white">
+            </div>
+            <div>
+              <span class="text-[9px] text-zinc-400 block mb-0.5">Assist:</span>
+              <input type="number" id="edit-player-assists" min="0" class="w-full bg-zinc-800 border border-white/10 rounded px-2 py-1 text-center font-mono font-bold text-white">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-2 pt-2 border-t border-white/10">
+        <button onclick="saveEditedPlayer()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs active:scale-95 transition shadow-lg">
+          Salva Modifiche Giocatore
+        </button>
+        <button onclick="deletePlayerDirect(editingPlayerId)" class="w-full py-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 font-bold rounded-xl text-xs border border-red-500/40 active:scale-95 transition flex items-center justify-center gap-1.5">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Elimina Giocatore Definitivamente
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPOSTAMENTO REPARTO CAMPO -->
+  <div id="modal-pitch-action" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[65] hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-amber-500/40 rounded-2xl p-5 max-w-xs w-full shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-black text-xs flex items-center justify-center" id="pitch-action-ovr">--</span>
+          <div>
+            <h3 id="pitch-action-name" class="font-black text-sm text-white">--</h3>
+            <span id="pitch-action-role" class="text-[9px] font-mono text-zinc-400 uppercase">--</span>
+          </div>
+        </div>
+        <button onclick="closePitchActionModal()" class="text-zinc-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <button onclick="viewFutFromPitch()" class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 hover:border-amber-400 font-black text-xs text-amber-300 flex items-center justify-center gap-2 active:scale-95 transition">
+        <span>🎴</span> Apri Figurina
+      </button>
+      <div class="space-y-2 pt-1 border-t border-white/10">
+        <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block">Sposta Reparto Tattico:</span>
+        <div class="grid grid-cols-3 gap-1.5">
+          <button onclick="movePlayerPosition('DIF')" id="btn-pos-DIF" class="py-2 rounded-lg border font-bold text-xs transition active:scale-95 bg-white/5 border-white/10 text-zinc-300 hover:bg-white/15">🛡️ DIF</button>
+          <button onclick="movePlayerPosition('CC')" id="btn-pos-CC" class="py-2 rounded-lg border font-bold text-xs transition active:scale-95 bg-white/5 border-white/10 text-zinc-300 hover:bg-white/15">⚙️ CEN</button>
+          <button onclick="movePlayerPosition('ATT')" id="btn-pos-ATT" class="py-2 rounded-lg border font-bold text-xs transition active:scale-95 bg-white/5 border-white/10 text-zinc-300 hover:bg-white/15">⚡ ATT</button>
+        </div>
+        <p class="text-[9px] text-zinc-500 italic text-center">Studio formazione temporaneo: si resetta alla chiusura.</p>
+      </div>
+      <button onclick="closePitchActionModal()" class="w-full py-2 bg-white/10 hover:bg-white/15 rounded-xl font-bold text-xs text-zinc-300">Chiudi</button>
+    </div>
+  </div>
+
+  <!-- SELEZIONE RUOLO -->
+  <div id="modal-role" class="fixed inset-0 bg-black/85 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-4">
+    <div class="bg-zinc-900 border border-amber-500/40 rounded-2xl p-5 max-w-xs w-full shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-white/10 pb-2">
+        <h3 class="font-black text-sm text-amber-400">Assegna Ruolo Tattico</h3>
+        <button onclick="closeRoleModal()" class="text-zinc-400 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div>
+        <div id="role-modal-player-name" class="font-black text-sm text-white mb-3 text-center">--</div>
+        <div class="space-y-3">
+          <div>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">🧤 Portiere</span>
+            <div class="grid grid-cols-3 gap-1.5" id="roles-por"></div>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">🛡️ Difesa</span>
+            <div class="grid grid-cols-3 gap-1.5" id="roles-dif"></div>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">⚙️ Centrocampo</span>
+            <div class="grid grid-cols-3 gap-1.5" id="roles-cen"></div>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider block mb-1">⚡ Attacco</span>
+            <div class="grid grid-cols-3 gap-1.5" id="roles-att"></div>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-2 pt-2 border-t border-white/10">
+        <button onclick="closeRoleModal()" class="w-1/2 py-2 bg-white/10 hover:bg-white/15 rounded-xl font-bold text-xs text-zinc-300">Annulla</button>
+        <button onclick="saveRole()" class="w-1/2 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs active:scale-95 transition">Conferma</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIGURINA FUT -->
+  <div id="modal-fut" class="fixed inset-0 bg-black/85 backdrop-blur-md z-[60] hidden flex items-center justify-center p-3">
+    <div class="relative max-w-[320px] w-full max-h-[92vh] overflow-y-auto rounded-3xl">
+      <button onclick="closeModals()" class="absolute top-2 right-2 text-black/70 hover:text-black z-20 bg-white/40 rounded-full p-1">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="fut-card rounded-3xl p-4 text-amber-950 shadow-2xl relative select-none space-y-3">
+        <div class="flex justify-between items-start pt-1">
+          <div class="flex flex-col items-center leading-none">
+            <input type="number" id="fut-card-ovr-input" min="1" max="99" class="w-16 text-center bg-black/15 font-black text-3xl text-black rounded-lg focus:outline-none transition disabled:opacity-100 disabled:bg-transparent">
+            <button id="fut-card-role-btn" onclick="handleRoleClickFromFigurina()" class="text-xs font-black tracking-widest text-amber-950 mt-1 uppercase flex items-center gap-0.5 px-1 py-0.5 rounded transition">
+              <span id="fut-card-role">DC</span>
+              <span id="fut-card-role-edit-icon" class="text-[9px] opacity-70 hidden">✏️</span>
+            </button>
+            <div class="w-5 h-0.5 bg-amber-900/40 my-1"></div>
+            <span class="text-xs">🥭</span>
+          </div>
+          <div class="w-24 h-24 rounded-2xl bg-gradient-to-t from-black/40 to-transparent flex items-center justify-center overflow-hidden shadow-inner border border-white/30 relative">
+            <span id="fut-card-avatar" class="text-4xl">⚽</span>
+          </div>
+        </div>
+
+        <div class="text-center pb-1 border-b-2 border-amber-950/20 space-y-1">
+          <h2 id="fut-card-name" class="font-black text-lg tracking-wider uppercase text-black drop-shadow-sm truncate">--</h2>
+          <input type="text" id="fut-card-desc-input" class="w-full text-center bg-transparent border-b border-transparent focus:border-amber-950/40 text-[11px] font-semibold text-amber-900 italic focus:outline-none transition disabled:border-transparent">
+        </div>
+
+        <div class="bg-black/15 border border-amber-950/30 rounded-xl p-2 text-center text-amber-950 font-bold">
+          <div class="grid grid-cols-5 gap-1 text-[10px] font-mono leading-tight">
+            <div><span class="opacity-70 block text-[8px]">PG</span><span id="fut-stat-matches" class="font-black text-black text-xs">0</span></div>
+            <div><span class="opacity-70 block text-[8px] text-emerald-950">V</span><span id="fut-stat-wins" class="font-black text-emerald-900 text-xs">0</span></div>
+            <div><span class="opacity-70 block text-[8px] text-red-950">S</span><span id="fut-stat-losses" class="font-black text-red-900 text-xs">0</span></div>
+            <div><span class="opacity-70 block text-[8px]">GOL</span><span id="fut-stat-goals" class="font-black text-black text-xs">0</span></div>
+            <div><span class="opacity-70 block text-[8px]">AST</span><span id="fut-stat-assists" class="font-black text-black text-xs">0</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-[9px] font-black uppercase tracking-wider text-amber-900/80">Attributi Ufficiali (1-99):</span>
+            <span id="fut-edit-notice" class="text-[8px] font-bold text-amber-900/60 uppercase">Sola lettura</span>
+          </div>
+          <div class="grid grid-cols-2 gap-x-3 gap-y-1 py-1.5 px-2 bg-black/10 rounded-xl text-xs font-black font-mono border border-amber-950/20">
+            <div class="flex justify-between items-center"><span>VEL</span><input type="number" id="fut-stat-vel" min="1" max="99" class="w-11 text-center bg-white/70 text-black font-black rounded text-xs focus:outline-none disabled:bg-transparent"></div>
+            <div class="flex justify-between items-center"><span>DRI</span><input type="number" id="fut-stat-dri" min="1" max="99" class="w-11 text-center bg-white/70 text-black font-black rounded text-xs focus:outline-none disabled:bg-transparent"></div>
+            <div class="flex justify-between items-center"><span>TIR</span><input type="number" id="fut-stat-tir" min="1" max="99" class="w-11 text-center bg-white/70 text-black font-black rounded text-xs focus:outline-none disabled:bg-transparent"></div>
+            <div class="flex justify-between items-center"><span>DIF</span><input type="number" id="fut-stat-dif" min="1" max="99" class="w-11 text-center bg-white/70 text-black font-black rounded text-xs focus:outline-none disabled:bg-transparent"></div>
+            <div class="flex justify-between items-center"><span>PAS</span><input type="number" id="fut-stat-pas" min="1" max="99" class="w-11 text-center bg-white/70 text-black font-black rounded text-xs focus:outline-none disabled:bg-transparent"></div>
+            <div class="flex justify-between items-center"><span>FIS</span><input type="number" id="fut-stat-fis" min="1" max="99" class="w-11 text-center bg-white/70 text-black font-black rounded text-xs focus:outline-none disabled:bg-transparent"></div>
+          </div>
+        </div>
+
+        <div class="pt-1">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[9px] font-black uppercase tracking-wider text-amber-900/80">Tratti Distintivi & Badge:</span>
+            <button onclick="toggleBadgePicker()" id="fut-btn-add-badge" class="hidden inline-flex items-center gap-1 bg-black text-amber-300 px-2 py-0.5 rounded-full text-[10px] font-black hover:bg-zinc-800 active:scale-95 transition shadow">
+              <span>+ Aggiungi</span>
+            </button>
+          </div>
+          <div id="fut-card-badges" class="flex flex-wrap gap-1 min-h-[30px] p-1.5 bg-black/10 rounded-xl border border-amber-950/20"></div>
+          <div id="badge-picker-dropdown" class="hidden mt-2 p-2 bg-zinc-950/95 border border-amber-500/40 rounded-xl text-white space-y-2 max-h-48 overflow-y-auto shadow-2xl">
+            <div class="flex justify-between items-center pb-1 border-b border-white/10">
+              <span class="text-[10px] font-black text-amber-400 uppercase">Scegli Tratto:</span>
+              <button onclick="toggleBadgePicker(false)" class="text-zinc-400 hover:text-white text-xs">Chiudi</button>
+            </div>
+            <div id="badge-picker-categories" class="space-y-2"></div>
+          </div>
+        </div>
+
+        <button onclick="saveFutCardChanges()" id="fut-btn-save" class="hidden w-full py-2.5 bg-zinc-950 hover:bg-black text-amber-300 font-black rounded-xl text-xs flex items-center justify-center gap-1.5 active:scale-95 transition shadow-lg border border-amber-400/40">
+          <i data-lucide="save" class="w-4 h-4"></i> Salva Modifiche Figurina
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARICAMENTO LOGICA JS APPLICATIVA SEPARATA -->
+  <script src="app.js"></script>
+</body>
+</html>
