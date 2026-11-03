@@ -1,0 +1,728 @@
+{
+  "version": "mangos_v21",
+  "exportDate": "2026-11-03T09:35:32.901Z",
+  "players": [
+    {
+      "id": 1,
+      "name": "Davide Senox",
+      "role": "DC",
+      "ovr": 90,
+      "desc": "Difensore concentrato, guida sicura",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "muro",
+        "casello"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Francesco",
+      "role": "DC",
+      "ovr": 87,
+      "desc": "Lucido, preciso, sempre affidabile",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "muro",
+        "cingolato"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Antonio",
+      "role": "ATT",
+      "ovr": 92,
+      "desc": "Attaccante generoso, incisivo e deciso",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "cecchino",
+        "cannoniere"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Rik",
+      "role": "ATT",
+      "ovr": 91,
+      "desc": "Velocità, energia, intensità continua",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "fulmine",
+        "tre_polmoni"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Enrico",
+      "role": "ATT",
+      "ovr": 89,
+      "desc": "Istinto, freddezza, grande senso-gol",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "volpe",
+        "sangue_freddo"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Matteo",
+      "role": "POR",
+      "ovr": 78,
+      "desc": "Portiere reattivo, trasmette sicurezza",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "muro",
+        "calamita"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Sergio",
+      "role": "CC",
+      "ovr": 84,
+      "desc": "Centrocampista completo, sempre generoso",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "tre_polmoni",
+        "mago"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Aldo",
+      "role": "CC",
+      "ovr": 86,
+      "desc": "Tecnica, visione, passaggi illuminanti",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "mago",
+        "piede_educato"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Nicola",
+      "role": "ATT",
+      "ovr": 88,
+      "desc": "Creativo, intelligente, presenza costante",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "cannoniere",
+        "sangue_freddo"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Marco",
+      "role": "ATT",
+      "ovr": 86,
+      "desc": "Entusiasmo e iniziativa in attacco",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "pizzicaro",
+        "cannoniere"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Peppe",
+      "role": "DC",
+      "ovr": 85,
+      "desc": "Presenza, grinta, protezione dell'area",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "cingolato",
+        "muro"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Dani",
+      "role": "DC",
+      "ovr": 81,
+      "desc": "Attento, pulito, difensore affidabile",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "borseggiatore",
+        "casello"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "Dado",
+      "role": "DC",
+      "ovr": 94,
+      "desc": "Deciso nei duelli e chiusure",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "casello",
+        "calamita"
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Vincy",
+      "role": "COC",
+      "ovr": 85,
+      "desc": "Agile, imprevedibile, fantasia pura",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "ciao_50",
+        "fulmine"
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Sgumbolotto",
+      "role": "ATT",
+      "ovr": 75,
+      "desc": "Tocco raffinato, soluzioni eleganti",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "piede_educato",
+        "ubriacante"
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Lorenzo",
+      "role": "CC",
+      "ovr": 84,
+      "desc": "Tecnico, fantasioso, dribbling brillante",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "ubriacante",
+        "brasiliano"
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Federico",
+      "role": "DC",
+      "ovr": 79,
+      "desc": "Attento, presente, marcatura generosa",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "segugio",
+        "calamita"
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Andriix",
+      "role": "DC",
+      "ovr": 80,
+      "desc": "Solido, tenace, dà equilibrio",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "casello",
+        "ancora"
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Riccardo",
+      "role": "ED",
+      "ovr": 83,
+      "desc": "Dinamico, intraprendente, inserimenti puntuali",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "ciao_50",
+        "tre_polmoni"
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Belviso",
+      "role": "CC",
+      "ovr": 84,
+      "desc": "Agile, elegante, controllo sicuro",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "piede_educato",
+        "tre_polmoni"
+      ]
+    },
+    {
+      "id": 21,
+      "name": "Flavio",
+      "role": "DC",
+      "ovr": 75,
+      "desc": "Attento, collaborativo, impegno costante",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "borseggiatore",
+        "casello"
+      ]
+    },
+    {
+      "id": 22,
+      "name": "Luca Sbunghi",
+      "role": "CDC",
+      "ovr": 81,
+      "desc": "Generoso, esperto, protegge la difesa",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "ancora",
+        "tornado"
+      ]
+    },
+    {
+      "id": 23,
+      "name": "Alberto",
+      "role": "DC",
+      "ovr": 66,
+      "desc": "Determinato, forte nei contrasti",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "cingolato",
+        "ancora"
+      ]
+    },
+    {
+      "id": 24,
+      "name": "Berto",
+      "role": "DC",
+      "ovr": 78,
+      "desc": "Generoso, reattivo, spirito di squadra",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "tornado",
+        "calamita"
+      ]
+    },
+    {
+      "id": 25,
+      "name": "Ale Riolo",
+      "role": "TD",
+      "ovr": 78,
+      "desc": "Instancabile, sostiene tutta la fascia",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "segugio",
+        "ciao_50"
+      ]
+    },
+    {
+      "id": 26,
+      "name": "Giulio",
+      "role": "CC",
+      "ovr": 1,
+      "desc": "Versatile, curioso, porta energia",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "tornado",
+        "brasiliano"
+      ]
+    },
+    {
+      "id": 27,
+      "name": "Sebastian",
+      "role": "DC",
+      "ovr": 67,
+      "desc": "Cuore, generosità, aiuto ai compagni",
+      "goals": 0,
+      "assists": 0,
+      "matches": 0,
+      "wins": 0,
+      "losses": 0,
+      "present": false,
+      "badges": [
+        "tornado",
+        "cingolato"
+      ]
+    }
+  ],
+  "savedMatchdays": [
+    {
+      "id": 1793697973388,
+      "rawDate": "",
+      "date": "",
+      "time": "",
+      "place": "Calcetto Mangos Arena",
+      "status": "programmata",
+      "scoreWhite": null,
+      "scoreBlack": null,
+      "goalsListWhite": [],
+      "goalsListBlack": [],
+      "processedStats": false,
+      "appliedStats": null,
+      "whiteTeam": [
+        {
+          "id": 1,
+          "name": "Davide Senox",
+          "role": "DC",
+          "ovr": 90,
+          "desc": "Difensore concentrato, guida sicura",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "muro",
+            "casello"
+          ]
+        },
+        {
+          "id": 9,
+          "name": "Nicola",
+          "role": "ATT",
+          "ovr": 88,
+          "desc": "Creativo, intelligente, presenza costante",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "cannoniere",
+            "sangue_freddo"
+          ]
+        },
+        {
+          "id": 5,
+          "name": "Enrico",
+          "role": "ATT",
+          "ovr": 89,
+          "desc": "Istinto, freddezza, grande senso-gol",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "volpe",
+            "sangue_freddo"
+          ]
+        },
+        {
+          "id": 18,
+          "name": "Andriix",
+          "role": "DC",
+          "ovr": 80,
+          "desc": "Solido, tenace, dà equilibrio",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "casello",
+            "ancora"
+          ]
+        },
+        {
+          "id": 17,
+          "name": "Federico",
+          "role": "DC",
+          "ovr": 79,
+          "desc": "Attento, presente, marcatura generosa",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "segugio",
+            "calamita"
+          ]
+        },
+        {
+          "id": 24,
+          "name": "Berto",
+          "role": "DC",
+          "ovr": 78,
+          "desc": "Generoso, reattivo, spirito di squadra",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "tornado",
+            "calamita"
+          ]
+        },
+        {
+          "id": 15,
+          "name": "Sgumbolotto",
+          "role": "ATT",
+          "ovr": 75,
+          "desc": "Tocco raffinato, soluzioni eleganti",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "piede_educato",
+            "ubriacante"
+          ]
+        }
+      ],
+      "blackTeam": [
+        {
+          "id": 3,
+          "name": "Antonio",
+          "role": "ATT",
+          "ovr": 92,
+          "desc": "Attaccante generoso, incisivo e deciso",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "cecchino",
+            "cannoniere"
+          ]
+        },
+        {
+          "id": 2,
+          "name": "Francesco",
+          "role": "DC",
+          "ovr": 87,
+          "desc": "Lucido, preciso, sempre affidabile",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "muro",
+            "cingolato"
+          ]
+        },
+        {
+          "id": 11,
+          "name": "Peppe",
+          "role": "DC",
+          "ovr": 85,
+          "desc": "Presenza, grinta, protezione dell'area",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "cingolato",
+            "muro"
+          ]
+        },
+        {
+          "id": 7,
+          "name": "Sergio",
+          "role": "CC",
+          "ovr": 84,
+          "desc": "Centrocampista completo, sempre generoso",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "tre_polmoni",
+            "mago"
+          ]
+        },
+        {
+          "id": 19,
+          "name": "Riccardo",
+          "role": "ED",
+          "ovr": 83,
+          "desc": "Dinamico, intraprendente, inserimenti puntuali",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "ciao_50",
+            "tre_polmoni"
+          ]
+        },
+        {
+          "id": 22,
+          "name": "Sbunghi",
+          "role": "CDC",
+          "ovr": 81,
+          "desc": "Generoso, esperto, protegge la difesa",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "ancora",
+            "tornado"
+          ]
+        },
+        {
+          "id": 23,
+          "name": "Alberto",
+          "role": "DC",
+          "ovr": 66,
+          "desc": "Determinato, forte nei contrasti",
+          "goals": 0,
+          "assists": 0,
+          "matches": 0,
+          "wins": 0,
+          "losses": 0,
+          "present": true,
+          "badges": [
+            "cingolato",
+            "ancora"
+          ]
+        }
+      ],
+      "gkWhiteId": 1,
+      "gkBlackId": 3,
+      "overridesWhite": {},
+      "overridesBlack": {}
+    }
+  ],
+  "activeMatch": null
+}
