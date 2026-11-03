@@ -1,0 +1,586 @@
+
+body {
+  background: radial-gradient(circle at top, #181528 0%, #08070d 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.neon-border {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.18);
+}
+
+.pitch-bg {
+  background: repeating-linear-gradient(
+    0deg,
+    #064e3b,
+    #064e3b 20px,
+    #043b2c 20px,
+    #043b2c 40px
+  );
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.card-bianca {
+  background: linear-gradient(145deg, #ffffff 0%, #d8d8d8 100%);
+  color: #09090b;
+}
+
+.card-nera {
+  background: linear-gradient(145deg, #18181b 0%, #09090b 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* FIGURINA FUT: colori chiari per fascia OVR */
+.fut-card {
+  border: 2px solid rgba(30, 41, 59, 0.35);
+  box-shadow: 0 0 25px rgba(148, 163, 184, 0.3), inset 0 0 15px rgba(255, 255, 255, 0.4);
+  position: relative;
+}
+
+#modal-fut .fut-card--tier-10 { background: linear-gradient(135deg, #ffe4e6 0%, #fda4af 48%, #fb7185 100%); }
+#modal-fut .fut-card--tier-20 { background: linear-gradient(135deg, #ffedd5 0%, #fdba74 48%, #fb923c 100%); }
+#modal-fut .fut-card--tier-30 { background: linear-gradient(135deg, #fef9c3 0%, #fde047 48%, #facc15 100%); }
+#modal-fut .fut-card--tier-40 { background: linear-gradient(135deg, #ecfccb 0%, #bef264 48%, #a3e635 100%); }
+#modal-fut .fut-card--tier-50 { background: linear-gradient(135deg, #dcfce7 0%, #86efac 48%, #4ade80 100%); }
+#modal-fut .fut-card--tier-60 { background: linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 48%, #38bdf8 100%); }
+#modal-fut .fut-card--tier-70 { background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 48%, #60a5fa 100%); }
+#modal-fut .fut-card--tier-80 { background: linear-gradient(135deg, #ede9fe 0%, #c4b5fd 48%, #a78bfa 100%); }
+#modal-fut .fut-card--tier-90 { background: linear-gradient(135deg, #fae8ff 0%, #e9a8f4 48%, #d946ef 100%); }
+#modal-fut .fut-card--ovr-silver {
+  background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 35%, #f1f5f9 62%, #94a3b8 100%);
+  border-color: #64748b;
+  box-shadow: 0 0 28px rgba(203, 213, 225, 0.55), inset 0 0 18px rgba(255, 255, 255, 0.7);
+}
+#modal-fut .fut-card--ovr-gold {
+  background: linear-gradient(135deg, #fff7cc 0%, #facc15 32%, #fef3c7 58%, #d4a017 100%);
+  border-color: #a16207;
+  box-shadow: 0 0 28px rgba(250, 204, 21, 0.55), inset 0 0 18px rgba(255, 255, 255, 0.65);
+}
+
+#modal-fut .fut-card[class*="fut-card--"] {
+  color: #172033;
+}
+
+#modal-fut .fut-card[class*="fut-card--"] [class*="text-amber-950"],
+#modal-fut .fut-card[class*="fut-card--"] [class*="text-amber-900"] {
+  color: #172033;
+}
+
+#modal-fut .fut-modal-panel {
+  width: min(96vw, 1000px);
+  max-width: none;
+}
+
+#modal-matchday-detail .matchday-detail-panel {
+  width: min(96vw, 1280px);
+}
+
+#modal-matchday-detail #md-sec-formations-roster {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "team-selector"
+    "white-pitch"
+    "white-turns"
+    "black-pitch"
+    "black-turns";
+  gap: 0.75rem;
+  font-size: 0.75rem;
+}
+
+#modal-matchday-detail #md-sec-formations-roster.hidden {
+  display: none;
+}
+
+#modal-matchday-detail #md-sec-tactics,
+#modal-matchday-detail #md-sec-turns {
+  display: contents;
+}
+
+#modal-matchday-detail #md-team-white-pitch { grid-area: white-pitch; }
+#modal-matchday-detail #md-team-white-turns { grid-area: white-turns; }
+#modal-matchday-detail #md-team-black-pitch { grid-area: black-pitch; }
+#modal-matchday-detail #md-team-black-turns { grid-area: black-turns; }
+#modal-matchday-detail .mobile-team-selector { grid-area: team-selector; }
+
+#modal-matchday-detail #md-sec-formations-roster[data-mobile-team="white"] #md-team-black-pitch,
+#modal-matchday-detail #md-sec-formations-roster[data-mobile-team="white"] #md-team-black-turns,
+#modal-matchday-detail #md-sec-formations-roster[data-mobile-team="black"] #md-team-white-pitch,
+#modal-matchday-detail #md-sec-formations-roster[data-mobile-team="black"] #md-team-white-turns {
+  display: none;
+}
+
+#modal-matchday-detail .mobile-team-selector button[aria-pressed="true"] {
+  border-color: #fbbf24;
+  background: #fbbf24;
+  color: #111827;
+}
+
+#modal-edit-matchday .matchday-edit-panel {
+  width: min(96vw, 980px);
+}
+
+#modal-edit-matchday .matchday-edit-panel label,
+#modal-edit-matchday .matchday-edit-panel span,
+#modal-edit-matchday .matchday-edit-panel select,
+#modal-edit-matchday .matchday-edit-panel input,
+#modal-edit-matchday .matchday-edit-panel button,
+#modal-edit-matchday #edit-goals-list-w > div,
+#modal-edit-matchday #edit-goals-list-b > div {
+  font-size: max(0.75rem, 12px);
+}
+
+#modal-pitch-action > div h3,
+#modal-pitch-action > div span,
+#modal-pitch-action > div button,
+#modal-pitch-action > div p {
+  font-size: max(0.75rem, 12px);
+}
+
+#modal-matchday-detail #modal-match-status-badge,
+#modal-matchday-detail #modal-match-score-badge,
+#modal-matchday-detail #modal-match-date,
+#modal-matchday-detail #modal-match-place,
+#modal-matchday-detail #modal-match-tabs-container button,
+#modal-matchday-detail #admin-load-pitch-action button,
+#modal-matchday-detail #modal-match-pending-banner p,
+#modal-matchday-detail #modal-match-pending-banner button,
+#modal-matchday-detail #md-sec-tactics > div > div:first-child span,
+#modal-matchday-detail #md-team-white-turns span,
+#modal-matchday-detail #md-team-white-turns button,
+#modal-matchday-detail #md-team-black-turns span,
+#modal-matchday-detail #md-team-black-turns button,
+#modal-matchday-detail #md-sec-summary span,
+#modal-matchday-detail #md-sec-summary p,
+#modal-matchday-detail #md-sec-summary button,
+#modal-matchday-detail #modal-match-admin-actions button,
+#modal-matchday-detail #modal-match-edit-action {
+  font-size: max(0.75rem, 12px);
+}
+
+#modal-matchday-detail #md-sec-summary-score #modal-tabellino-score-header {
+  font-size: 1.25rem;
+}
+
+.fut-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.38) 50%, transparent 60%);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  #modal-matchday-detail .matchday-detail-panel {
+    padding: 2rem;
+    font-size: 1rem;
+    gap: 1.25rem;
+  }
+
+  #modal-matchday-detail #md-sec-tactics,
+  #modal-matchday-detail #md-sec-turns {
+    gap: 0;
+  }
+
+  #modal-matchday-detail #md-sec-formations-roster {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "white-pitch black-pitch"
+      "white-turns black-turns";
+    gap: 1rem;
+    font-size: 1rem;
+  }
+
+  #modal-matchday-detail .mobile-team-selector {
+    display: none;
+  }
+
+  #modal-matchday-detail #md-team-white-pitch,
+  #modal-matchday-detail #md-team-white-turns,
+  #modal-matchday-detail #md-team-black-pitch,
+  #modal-matchday-detail #md-team-black-turns {
+    display: block;
+  }
+
+  #modal-matchday-detail #md-sec-formations-roster[data-mobile-team] #md-team-white-pitch,
+  #modal-matchday-detail #md-sec-formations-roster[data-mobile-team] #md-team-white-turns,
+  #modal-matchday-detail #md-sec-formations-roster[data-mobile-team] #md-team-black-pitch,
+  #modal-matchday-detail #md-sec-formations-roster[data-mobile-team] #md-team-black-turns {
+    display: block;
+  }
+
+  #modal-matchday-detail #md-team-white-pitch,
+  #modal-matchday-detail #md-team-black-pitch {
+    padding: 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  #modal-matchday-detail #modal-pitch-lines-w,
+  #modal-matchday-detail #modal-pitch-lines-b {
+    font-size: 0.9rem;
+  }
+
+  #modal-matchday-detail #modal-match-date {
+    font-size: 1.35rem;
+  }
+
+  #modal-edit-matchday .matchday-edit-panel {
+    padding: 2rem;
+    font-size: 1rem;
+    gap: 1.25rem;
+  }
+
+  #modal-edit-matchday .matchday-edit-panel > div:not(:first-child) {
+    font-size: 0.95rem;
+  }
+
+  #modal-edit-matchday input,
+  #modal-edit-matchday select {
+    font-size: 1rem;
+    padding: 0.65rem 0.8rem;
+  }
+
+  #modal-edit-matchday label,
+  #modal-edit-matchday button {
+    font-size: 0.9rem;
+  }
+
+  #modal-edit-matchday .matchday-edit-panel label,
+  #modal-edit-matchday .matchday-edit-panel span,
+  #modal-edit-matchday .matchday-edit-panel select,
+  #modal-edit-matchday .matchday-edit-panel input,
+  #modal-edit-matchday .matchday-edit-panel button,
+  #modal-edit-matchday #edit-goals-list-w > div,
+  #modal-edit-matchday #edit-goals-list-b > div {
+    font-size: max(0.875rem, 14px);
+  }
+
+  #modal-pitch-action > div h3,
+  #modal-pitch-action > div span,
+  #modal-pitch-action > div button,
+  #modal-pitch-action > div p {
+    font-size: max(0.875rem, 14px);
+  }
+
+  #modal-matchday-detail #modal-match-status-badge,
+  #modal-matchday-detail #modal-match-score-badge,
+  #modal-matchday-detail #modal-match-date,
+  #modal-matchday-detail #modal-match-place,
+  #modal-matchday-detail #modal-match-tabs-container button,
+  #modal-matchday-detail #admin-load-pitch-action button,
+  #modal-matchday-detail #modal-match-pending-banner p,
+  #modal-matchday-detail #modal-match-pending-banner button,
+  #modal-matchday-detail #md-sec-tactics > div > div:first-child span,
+  #modal-matchday-detail #md-team-white-turns span,
+  #modal-matchday-detail #md-team-white-turns button,
+  #modal-matchday-detail #md-team-black-turns span,
+  #modal-matchday-detail #md-team-black-turns button,
+  #modal-matchday-detail #md-sec-summary span,
+  #modal-matchday-detail #md-sec-summary p,
+  #modal-matchday-detail #md-sec-summary button,
+  #modal-matchday-detail #modal-match-admin-actions button,
+  #modal-matchday-detail #modal-match-edit-action {
+    font-size: max(0.875rem, 14px);
+  }
+
+  #modal-matchday-detail #md-sec-summary-score #modal-tabellino-score-header {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  #modal-fut .fut-card {
+    font-size: 1.2rem;
+    padding: 2rem;
+    gap: 1.25rem;
+  }
+
+  #modal-fut .fut-card > div {
+    position: relative;
+    z-index: 1;
+  }
+
+  #modal-fut #fut-card-name {
+    font-size: 2rem;
+  }
+
+  #modal-fut #fut-card-desc-input,
+  #modal-fut #fut-recent-matches,
+  #modal-fut #fut-stat-vel,
+  #modal-fut #fut-stat-dri,
+  #modal-fut #fut-stat-tir,
+  #modal-fut #fut-stat-dif,
+  #modal-fut #fut-stat-pas,
+  #modal-fut #fut-stat-fis {
+    font-size: 1rem;
+  }
+
+  #modal-fut #fut-recent-matches-title {
+    font-size: 0.9rem;
+  }
+
+  #modal-fut section[aria-labelledby="fut-recent-matches-title"] > div:nth-child(2) {
+    font-size: 0.85rem;
+  }
+
+  #modal-fut #fut-recent-matches > div {
+    font-size: 0.95rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  #modal-fut #fut-edit-notice,
+  #modal-fut .fut-card > div > div > span,
+  #modal-fut #fut-card-badges > span {
+    font-size: 0.8rem;
+  }
+}
+
+.mini-fut-pitch {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 390px;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 0.6rem;
+  overflow: hidden;
+  padding: 0.75rem 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 0.85rem;
+  background:
+    linear-gradient(rgba(2, 35, 25, 0.12), rgba(2, 35, 25, 0.12)),
+    repeating-linear-gradient(0deg, #08734e 0, #08734e 48px, #086345 48px, #086345 96px);
+}
+
+.mini-fut-pitch::before {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 7rem;
+  height: 7rem;
+  border: 1px solid rgba(255, 255, 255, 0.19);
+  border-radius: 50%;
+  content: '';
+  transform: translate(-50%, -50%);
+}
+
+.mini-fut-line {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.mini-fut-line--att {
+  padding: 0.4rem;
+  border: 1px solid rgba(15, 23, 42, 0.7);
+  border-radius: 0.75rem;
+  background: rgba(3, 18, 15, 0.62);
+}
+
+.mini-fut-line--cc {
+  padding: 0.4rem;
+  border: 1px solid rgba(30, 58, 80, 0.8);
+  border-radius: 0.75rem;
+  background: rgba(8, 20, 34, 0.68);
+}
+
+.mini-fut-line--dif {
+  padding: 0.4rem;
+  border: 1px solid rgba(70, 53, 29, 0.8);
+  border-radius: 0.75rem;
+  background: rgba(28, 20, 10, 0.65);
+}
+
+.mini-fut-line--keeper .mini-fut-line-label {
+  border-color: rgba(253, 224, 71, 0.75);
+  background: rgba(120, 83, 9, 0.8);
+  color: #fef08a;
+}
+
+.mini-fut-line--keeper {
+  position: relative;
+  width: min(100%, 15rem);
+  align-self: center;
+  padding: 0.4rem 0.65rem 0.5rem;
+  border: 1px solid rgba(250, 204, 21, 0.75);
+  border-radius: 0.75rem 0.75rem 2rem 2rem;
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.3), rgba(250, 204, 21, 0.08));
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.2), inset 0 0 12px rgba(250, 204, 21, 0.1);
+}
+
+.mini-fut-line--keeper::after {
+  position: absolute;
+  right: 18%;
+  bottom: -0.5rem;
+  left: 18%;
+  height: 0.5rem;
+  border: 1px solid rgba(250, 204, 21, 0.65);
+  border-top: 0;
+  content: '';
+}
+
+.mini-fut-line--keeper .mini-fut-card {
+  border-color: #fff3a3;
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.55), 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.mini-fut-line-label {
+  padding: 0.12rem 0.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.45);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.48rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.mini-fut-line-cards {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.mini-fut-card {
+  position: relative;
+  display: flex;
+  width: 70px;
+  min-height: 108px;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  padding: 0.25rem 0.22rem 0.2rem;
+  border: 1px solid #fef08a;
+  border-radius: 0.65rem;
+  background:
+    linear-gradient(145deg, transparent 34%, rgba(255, 255, 255, 0.42) 35%, transparent 39%),
+    linear-gradient(145deg, #ffed9b 0%, #e9a72c 53%, #a34a10 100%);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.38), inset 0 0 8px rgba(255, 255, 255, 0.35);
+  color: #261507;
+  transition: transform 120ms ease, filter 120ms ease;
+}
+
+.mini-fut-card:hover {
+  z-index: 1;
+  filter: brightness(1.12);
+  transform: translateY(-3px) scale(1.04);
+}
+
+.mini-fut-card-top {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 1;
+}
+
+.mini-fut-card-ovr {
+  font-size: 0.8rem;
+  font-weight: 1000;
+}
+
+.mini-fut-card-position {
+  font-size: 0.48rem;
+  font-weight: 900;
+}
+
+.mini-fut-card-avatar {
+  display: grid;
+  width: 2.65rem;
+  height: 2.75rem;
+  place-items: center;
+  margin-top: 0.08rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 0.45rem;
+  background: radial-gradient(circle at 35% 25%, #fff8cc, #d88a24 72%);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.mini-fut-card-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+}
+
+.mini-fut-card-emoji {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+}
+
+.mini-fut-card-name {
+  width: 100%;
+  margin-top: 0.2rem;
+  overflow: hidden;
+  font-size: 0.56rem;
+  font-weight: 1000;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-fut-empty {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.58rem;
+  font-style: italic;
+}
+
+@keyframes pulse-ring {
+  0%, 100% { outline: 2px solid #f59e0b; outline-offset: 2px; }
+  50% { outline: 2px solid #fbbf24; outline-offset: 4px; }
+}
+
+.selected-swap {
+  animation: pulse-ring 1.2s infinite ease-in-out;
+}
+
+@media (max-width: 380px) {
+  .mini-fut-pitch {
+    min-height: 350px;
+  }
+
+  .mini-fut-card {
+    width: 58px;
+    min-height: 98px;
+  }
+
+  .mini-fut-card-avatar {
+    width: 2.2rem;
+    height: 2.35rem;
+  }
+}
+
+/* STILE NATIVO CALENDARIO E ORA PER TEMA SCURO */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.85) sepia(1) saturate(5) hue-rotate(5deg);
+  cursor: pointer;
+}
+
+/* CUSTOM SCROLLBAR ELEGANTE */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 158, 11, 0.3);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.6);
+}
